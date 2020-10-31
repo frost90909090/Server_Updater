@@ -4,7 +4,7 @@
 #include <ctype.h>
 #include <dirent.h>
 //#include <my_global.h>
-#include <mysql/mysql.h>
+//#include <mysql/mysql.h>
 char **favorites, **list, **downloaded,**stored_tags;
 int favorites_size, list_size, downloaded_size,name_size,stored_tags_num;
 struct doujinshi{
@@ -97,7 +97,7 @@ int main(){
 	int i,j,numf,numl,id;
 	bool found;
 	FILE *curr_file;
-	MYSQL *con = mysql_init(NULL);
+//	MYSQL *con = mysql_init(NULL);
 //	tags tags_obj;
         system("nhentai --cookie \"csrftoken=t3CLrmYdcaiudSIlVjBmNATCThZsMkfGtj52EvS9evIXwIJeJX6Nanyo9rwjYoG2; sessionid=04ih2eq6g2tmy3qkebmo931uqmp1emrw\"");
         system("nhentai --page-range=1 -F > Files/Favorites.txt");
@@ -166,6 +166,10 @@ int main(){
 			manga[i].title = get_name(curr_file);
 			manga[i].title = (char*)realloc(manga[i].title,(name_size+1)*sizeof(char));
 		}
+		buff = NULL;
+		buff = (char*)malloc(1000*sizeof(char));
+		sprintf(buff,"mv Downloaded/%s \"Downloaded/%s\"",downloaded[i],manga[i].title);
+		system(buff);
 		fclose(curr_file);
 //		tags_obj.read(buff,i);
 		//fclose(curr_file);
@@ -196,15 +200,15 @@ int main(){
 	system("rmdir Downloaded/Fresh"); 
 	system("mv Downloaded/* /var/www/zenphoto/albums/");
 	system("mkdir Downloaded/Fresh");
-	mysql_real_connect(con,"localhost","root", "p0r0nt0?",NULL,0,NULL,0);
-	mysql_query(con, "USE zenphoto;");
-	for(i = 0 ; i < downloaded_size; i++){
+	//mysql_real_connect(con,"localhost","root", "p0r0nt0?",NULL,0,NULL,0);
+	//mysql_query(con, "USE zenphoto;");
+/*	for(i = 0 ; i < downloaded_size; i++){
 		buff = (char*)malloc(1250*sizeof(char));
 		id++;
 		sprintf(buff, "INSERT INTO `_albums` (`id`, `parentid`, `folder`, `title`, `desc`, `date`, `updateddate`, `location`, `show`, `closecomments`, `commentson`, `thumb`, `mtime`, `sort_type`, `subalbum_sort_type`, `sort_order`, `image_sortdirection`, `album_sortdirection`, `hitcounter`, `password`, `password_hint`, `publishdate`, `expiredate`, `total_value`, `total_votes`, `used_ips`, `custom_data`, `dynamic`, `search_params`, `album_theme`, `user`, `rating`, `rating_status`, `watermark`, `watermark_thumb`, `owner`, `codeblock`, `lastchange`, `lastchangeuser`) VALUES ('%d', 'NULL', '%s', '%s', '%s', NULL, NULL, NULL, '1', '0', '1', NULL, NULL, NULL, NULL, NULL, '0', '0', '0', '', NULL, NULL, NULL, '0', '0', NULL, NULL, '0', NULL, NULL, NULL, NULL, '3', NULL, NULL, NULL, NULL, NULL, NULL)",id,manga[i].code,manga[i].title,manga[i].code);
 		mysql_query(con,buff);
 	}
-	mysql_close(con);
+	mysql_close(con);*/
 	system("rm Files/id.txt");
 	buff = NULL;
 	buff = (char*)malloc(50*sizeof(char));
