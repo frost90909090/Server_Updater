@@ -198,7 +198,7 @@ int main(){
 	fclose(curr_file);
 	id = atoi(buff);
 	system("rmdir Downloaded/Fresh"); 
-	system("mv Downloaded/* /var/www/zenphoto/albums/");
+//	system("mv Downloaded/* /var/www/zenphoto/albums/");
 	system("mkdir Downloaded/Fresh");
 	//mysql_real_connect(con,"localhost","root", "p0r0nt0?",NULL,0,NULL,0);
 	//mysql_query(con, "USE zenphoto;");
@@ -286,6 +286,7 @@ void load_favorites(char file[100]){
 	//free(buff_string);
 }
 void load_list(char file[100]){
+	printf("Entrei\n");
 	char buff_char, buff_string[6];
 	FILE *curr_file;
 	int i,curr_size;
@@ -309,9 +310,10 @@ void load_list(char file[100]){
 			list[list_size][i] = buff_string[i];
 		}
 		list_size++;
+		printf("Check 1\n");
 	}while(buff_char != EOF);
 	fclose(curr_file);
-	//free(buff_string);
+	printf("Sai\n");
 }
 bool search(char search[100], FILE *file){
         int i,numero_de_chars;
